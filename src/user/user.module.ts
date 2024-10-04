@@ -10,6 +10,6 @@ import { UniqueUsernameValidator } from './custom-validate/is-unique-constraint'
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
-  exports: [],
+  exports: [UserService],
 })
 export class UserModule {}
