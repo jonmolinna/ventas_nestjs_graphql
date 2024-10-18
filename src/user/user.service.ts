@@ -11,8 +11,7 @@ export class UserService {
   constructor(@InjectModel(User.name) private useModel: Model<User>) {}
 
   async createUser(userDto: Partial<User>): Promise<User> {
-    const hash = await bcrypt.hash(userDto.name, this.saltOrRounds);
-
+    const hash = await bcrypt.hash(userDto.password, this.saltOrRounds);
     const createUser = new this.useModel({ ...userDto, password: hash });
     return createUser.save();
   }
