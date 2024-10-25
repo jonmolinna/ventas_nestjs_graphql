@@ -20,7 +20,7 @@ export class User {
   surname: string;
 
   @Field()
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, trim: true, lowercase: true })
   username: string;
 
   @Prop({ required: true })
