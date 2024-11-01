@@ -1,4 +1,12 @@
-import { Args, Mutation, Resolver, Query, ID } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Resolver,
+  Query,
+  ID,
+  Parent,
+  ResolveField,
+} from '@nestjs/graphql';
 import { Category } from 'src/schemas/category.schema';
 import { CategoryService } from './category.service';
 import { CategoryInput } from './dto/category.input';
@@ -6,10 +14,14 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { ObjectId } from 'mongoose';
 import { ParseObjectIdPipe } from 'src/pipes/parse-object-id-pipe.pipe';
+import { ProductService } from 'src/product/product.service';
 
-@Resolver()
+@Resolver(() => Category)
 export class CategoryResolver {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(
+    private readonly categoryService: CategoryService,
+    private readonly productService: ProductService,
+  ) {}
 
   @Mutation(() => Category, { name: 'addCategory' })
   @UseGuards(JwtAuthGuard)
@@ -46,5 +58,11 @@ export class CategoryResolver {
     @Args('input') category: CategoryInput,
   ): Promise<Category> {
     return this.categoryService.updatedCategory(id, category);
+  }
+
+  @ResolveField()
+  async products(@Parent() category: Category) {
+    const { _id } = category;
+    return this.productService.getAllPProductsByCategory(_id);
   }
 }

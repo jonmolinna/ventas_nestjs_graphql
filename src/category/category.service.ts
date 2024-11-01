@@ -19,11 +19,13 @@ export class CategoryService {
   }
 
   async findAllCategory(): Promise<Array<CategoryDocument>> {
-    return await this.categoryModel.find();
+    const products = await this.categoryModel.find().populate('products');
+    console.log('>>>>', products);
+    return products;
   }
 
   async findOneCategoryById(id: ObjectId): Promise<CategoryDocument> {
-    return await this.categoryModel.findById(id);
+    return await this.categoryModel.findById(id).populate('products');
   }
 
   async deleteCategory(id: ObjectId): Promise<boolean> {
