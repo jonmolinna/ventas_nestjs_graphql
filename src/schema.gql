@@ -7,6 +7,7 @@ type Category {
   createdAt: DateTime!
   description: String
   name: String!
+  products: [Product!]!
 }
 
 input CategoryInput {
@@ -21,16 +22,35 @@ scalar DateTime
 
 type Mutation {
   addCategory(input: CategoryInput!): Category!
+  addProduct(input: ProductInput!): Product!
   authentication(input: authInput!): authResponse!
   createUser(input: UserInput!): User!
   deleteCategory(id: ID!): Boolean!
+  deleteProduct(id: ID!): Boolean!
   updateCategory(id: ID!, input: CategoryInput!): Category!
+  updateProduct(id: ID!, input: ProductInput!): Product!
+}
+
+type Product {
+  _id: ID!
+  category: Category!
+  createdAt: String!
+  name: String!
+  price: Float!
+}
+
+input ProductInput {
+  category: ID!
+  name: String!
+  price: Float!
 }
 
 type Query {
   categories: [Category!]!
   category(id: ID!): Category!
   hello: String!
+  product(id: ID!): Product!
+  products: [Product!]!
   profile: User!
 }
 
