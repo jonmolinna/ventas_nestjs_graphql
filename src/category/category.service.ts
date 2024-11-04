@@ -19,9 +19,8 @@ export class CategoryService {
   }
 
   async findAllCategory(): Promise<Array<CategoryDocument>> {
-    const products = await this.categoryModel.find().populate('products');
-    console.log('>>>>', products);
-    return products;
+    const categories = await this.categoryModel.find().populate('products');
+    return categories;
   }
 
   async findOneCategoryById(id: ObjectId): Promise<CategoryDocument> {
